@@ -27,7 +27,7 @@ public class Logic {
         this.textInput = "";
     }
 
-    public void matchTime(String filenameInput) throws Exception {
+    public void matchTime(String filenameInput, int delay) throws Exception {
         this.filename = filenameInput;
         System.out.println(this.currentPath);
 
@@ -53,7 +53,7 @@ public class Logic {
 
         this.matches.forEach((element) -> {
             try {
-                subElement(element);
+                subElement(element, delay);
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -63,7 +63,7 @@ public class Logic {
         saveFile();
     }
 
-    private void subElement(String element) throws ParseException {
+    private void subElement(String element, int delay) throws ParseException {
         System.out.println(element);
         this.pattern = Pattern.compile(subRegex, Pattern.MULTILINE);
         this.matcher = pattern.matcher(element);
@@ -75,7 +75,7 @@ public class Logic {
 
         Date c= sdf.parse("26-05-2010-12:"+timeData.get(0)+":"+timeData.get(1)+":"+timeData.get(2));
         //c.setSeconds(c.getSeconds() - 1);
-        c = addMilliseconds(c, -2000);
+        c = addMilliseconds(c, -(delay));
         String date=sdf.format(c);
         String replacement = "0:"+c.getMinutes()+':'+c.getSeconds()+'.'+timeData.get(2);
 
